@@ -12,6 +12,7 @@ urlpatterns = [
     path('notes/<int:pk>/like', views.NotesLiked.as_view(), name="notes.like"),
     path('notes/<int:pk>/unlike', views.NotesUnliked.as_view(), name="notes.unlike"),
     path('notes/<int:pk>/ispublic', views.isPublic.as_view(), name="notes.ispublic"),
+    path('notes/<int:pk>/share', views.NotesPublicDetailView.as_view(), name="notes.share"),
 
 
     

@@ -3,7 +3,11 @@
 {% block content %}
     
 <div class="border round">
-    <h1 class="my-5">{{note.title}}</h1>
+    <h1 class="my-5">{{note.title}}  {% if note.is_public %}
+
+        <span class="badge bg-secondary"> Public</span>
+        {% endif %}
+    </h1>
 
     <p>{{note.text}}</p>
 </div>
@@ -21,11 +25,21 @@
     <button type="submit" class="btn btn-primary ">👍 Like ({{ note.no_of_likes }})</button>
   </form>
 
+  
+ 
+
   <form method="post" action="{% url 'notes.ispublic' pk=note.pk %}" >
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary "> Mark as Public</button>
+    <button type="submit" class="btn btn-primary "> 
+        {% if note.is_public %}
+        🔒 Mark as Private
+        {% else %}
+            🔓 Mark as Public
+        {% endif %}
+    </button>
   </form>
+ 
 
   <form method="post" action="{% url 'notes.unlike' pk=note.pk %}">
     {% csrf_token %}

@@ -4,10 +4,15 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
+
 from .forms import NotesForm
 
 from .models import Notes
 
+
+    
+    
 class NotesDeleteView(DeleteView):
     model = Notes 
     success_url = '/smart/notes'
@@ -25,10 +30,13 @@ class NotesLiked(View):
 class isPublic(View):
     def post(self, request, pk):
       note = get_object_or_404(Notes, pk=pk)
-      print(note.is_public)
-      note.is_public = True
+     
+      note.is_public = not note.is_public
       note.save()
       return redirect('notes.detail', pk=note.pk)
+  
+
+
   
 
 class NotesUnliked(View):
@@ -76,7 +84,12 @@ class PopularNotesListView(ListView):
     queryset = Notes.objects.filter(no_of_likes__gte=1)
     
     
-            
+
+class NotesPublicDetailView(DetailView):
+    model = Notes
+    context_object_name = "note" #this corresponds to the "picker" from the html view
+    queryset = Notes.objects.filter(is_public = True)
+
     
 
 class NotesDetailView(DetailView):
